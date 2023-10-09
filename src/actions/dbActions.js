@@ -48,13 +48,13 @@ export const addAppointment = async (db, msg) => {
   );
 
   if (isCurrentDateTimeClose(mappedMsg.date) < 0) {
-    return msg.reply("Appointment in the past. Must be in the future!");
+    return msg.reply(process.env.AppointmentInThePastMsg);
   }
 
   if (dateTimeRegex.test(mappedMsg.date) || DEdateTimeRegex.test(mappedMsg.date) ) {
     stmt.run(msg.author.id, mappedMsg.appointment, mappedMsg.date, mappedMsg.channel);
     await stmt.finalize();
-    msg.reply("New Appointment Created!");
+    msg.reply(process.env.newAppointmentMsg);
     return;
   } else {
     msg.reply("Wrong format.'DD/MM/YYYY HH:MM' or 'DD.MM.YYYY HH:MM'");
