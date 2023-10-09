@@ -1,6 +1,5 @@
 export const msgMapper = (msgToMap) => {
     const msgArray = msgToMap.content.split(" ");
-    console.log(msgToMap);
     if (msgArray[4]) {
       return msgToMap.reply(
         "Format not supported! Supported format: add SomeAppointmentNAme 09/10/2023 15:00"
