@@ -1,10 +1,9 @@
 import { isCurrentDateTimeClose } from "../index.js";
 import { appointmentsGet, appointmentDelete } from "./index.js";
 
-const appointmentData = {}; // Initialize an object to store appointment data
-const interval = parseInt(10) * 1000 + 1;
-
 export const readyHandler = (db, client) => {
+  const appointmentData = {}; // Initialize an object to store appointment data
+  const interval = parseInt(process.env.interval) * 1000;
   const messageToUsers = process.env.messageToUsers;
   const longTimer = parseInt(process.env.longTimer) * 1000 * 60;
   const shortTimer = parseInt(process.env.shortTimer) * 1000 * 60;
