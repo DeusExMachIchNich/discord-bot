@@ -14,12 +14,8 @@ const client = new Client({
 });
 
 const db = dbInit();
-const channels = JSON.parse(process.env.channelNames);
 
 client.on("ready", () => {
-  for (const oneChannel of channels){
-    client.channels.cache.find(channel => channel.name === oneChannel ).send(`${process.env.startUpMessage}`)
-  }
   
   readyHandler(db, client);
   console.log(`Logged in as ${client.user.tag}!`);
