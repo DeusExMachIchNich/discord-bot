@@ -40,7 +40,7 @@ node v18.x
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/DanielSpindler/discord-bot.git
+   git clone https://github.com/DeusExMachIchNich/discord-bot.git
    ```
 2. Install NPM packages
    ```sh
