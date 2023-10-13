@@ -1,4 +1,5 @@
 import { addAppointment, appointmentDelete } from "./index.js";
+import { exec } from "child_process";
 
 export const messageCreateHandler = async (msg, db) => {
   const content = msg.content.trim();
@@ -14,12 +15,11 @@ export const messageCreateHandler = async (msg, db) => {
     `);
   }
 
-  // Define a regular expression to match "!add" or "!del" followed by the required format
-  const addDelRegex = /^!(add|del) (.+?) (\d{2}[./]\d{2}[./]\d{4}) (\d{2}:\d{2})$/;
-  const match = content.match(addDelRegex);
+  const addDelRestartRegex = /^!(add|del|command)(?:\s|$)/;
+  const match = content.match(addDelRestartRegex);
 
   if (match) {
-    const [, command, /*appointmentName, dateStr, timeStr*/] = match;
+    const [, command /*, dateStr, timeStr*/] = match;
     
     if (command === "add") {
       // Handle appointment creation
@@ -28,5 +28,23 @@ export const messageCreateHandler = async (msg, db) => {
       // Handle appointment deletion
       appointmentDelete(db, msg);
     }
+    if (command === "command") {
+      const msgArray = msg.content.split(" ");
+      executeCommand(msgArray[1], msg);
+    }
   }
 };
+
+async function executeCommand(internalCommand, msg) {
+  if (internalCommand && msg.member.roles.cache.find(role => role.name === process.env.bossRole) ) {
+    try {
+      // Use pm2 to restart the current process
+      const test = exec(`npm run ${internalCommand}`);
+    } catch (error) {
+      console.error(`Error: ${error}`);
+    }
+    return;
+  } 
+  msg.reply('You aint got the Balls for that command!')
+  return
+}
