@@ -1,4 +1,4 @@
-import { addAppointment, appointmentDelete } from "./index.js";
+import { addAppointment, appointmentDelete } from "../index.js";
 import { exec } from "child_process";
 
 export const messageCreateHandler = async (msg, db) => {

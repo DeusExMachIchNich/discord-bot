@@ -22,14 +22,14 @@ export const appointmentDelete = (db, data) => {
 
   const query = `
   DELETE FROM ${process.env.tableName}
-  WHERE appointment = ? AND date = ?
+  WHERE appointment = ? AND date = ? AND channelId = ?
 `;
   try {
     db.all(query, [appointment.appointment, appointment.date, appointment.channel], (err) => {
       if (err) {
         console.error("Error deleting record:", err.message);
       } else {
-        console.log("Record deleted successfully.");
+        console.log("Record deleted successfully."+ appointment.appointment);
       }
     });
   } catch (err_1) {
