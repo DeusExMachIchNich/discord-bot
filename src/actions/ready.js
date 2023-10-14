@@ -1,12 +1,12 @@
-import { isCurrentDateTimeClose } from "../index.js";
 import { appointmentsGet, appointmentDelete } from "./index.js";
+import { isCurrentDateTimeClose } from "../index.js";
 
 export const readyHandler = (db, client) => {
   const appointmentData = {}; // Initialize an object to store appointment data
-  const interval = parseInt(process.env.interval) * 1000;
   const messageToUsers = process.env.messageToUsers;
-  const longTimer = parseInt(process.env.longTimer) * 1000 * 60;
   const shortTimer = parseInt(process.env.shortTimer) * 1000 * 60;
+  const longTimer = parseInt(process.env.longTimer) * 1000 * 60;
+  const interval = parseInt(process.env.interval) * 1000;
 
   setInterval(async () => {
     const data = await appointmentsGet(db, client);
@@ -33,7 +33,6 @@ export const readyHandler = (db, client) => {
       const shouldNotifyShort =
         timeDiff < shortTimer && timeDiff > 0 && notifiedType !== "short";
       if (shouldNotifyLong || shouldNotifyShort) {
-        console.log(shouldNotifyLong ? "long timer" : "short timer");
         client.channels.cache
           .find((channel) => channel.id === appointment.channelId)
           .send(
@@ -43,6 +42,7 @@ export const readyHandler = (db, client) => {
         appointmentData[appointment.date] = {
           notified: shouldNotifyLong ? "long" : "short",
         };
+        console.log(shouldNotifyLong ? "long timer" : "short timer");
       }
     }
   }, interval);

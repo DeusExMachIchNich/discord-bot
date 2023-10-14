@@ -1,5 +1,5 @@
 import { isCurrentDateTimeClose } from "../index.js";
-import { msgMapper } from "../mapper/msgMapper.js";
+import { interactionMapper } from "../mapper/interactionMapper.js";
 
 export const appointmentsGet = async (db) => {
   try {
@@ -18,45 +18,74 @@ export const appointmentsGet = async (db) => {
 };
 
 export const appointmentDelete = (db, data) => {
-  const appointment = data.content ? msgMapper(data) : data;
+  const appointment = interactionMapper(data);
 
   const query = `
   DELETE FROM ${process.env.tableName}
   WHERE appointment = ? AND date = ? AND channelId = ?
 `;
   try {
-    db.all(query, [appointment.appointment, appointment.date, appointment.channel], (err) => {
-      if (err) {
-        console.error("Error deleting record:", err.message);
-      } else {
-        console.log("Record deleted successfully."+ appointment.appointment);
+    db.all(
+      query,
+      [appointment.appointment, appointment.date, appointment.channelId],
+      (err) => {
+        if (err) {
+          console.error("Error deleting record:", err.message);
+        } else {
+          console.log("Record deleted successfully." + appointment.appointment);
+        }
       }
-    });
+    );
   } catch (err_1) {
     console.error(err_1);
   }
 };
 
-export const addAppointment = async (db, msg) => {
-  const mappedMsg = msgMapper(msg);
-  const dateTimeRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4} (\d{2}:\d{2})$/;
-  const DEdateTimeRegex = /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4} (\d{2}:\d{2})$/;
-
+export const addAppointment = async (db, interaction) => {
+  const mappedInteraction = interactionMapper(interaction);
+  const dateTimeRegex =
+    /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4} (\d{2}:\d{2})$/;
+  const DEdateTimeRegex =
+    /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4} (\d{2}:\d{2})$/;
 
   const stmt = db.prepare(
     `INSERT INTO ${process.env.tableName} VALUES (?, ?, ?, ?)`
   );
 
-  if (isCurrentDateTimeClose(mappedMsg.date) < 0) {
-    return msg.reply(process.env.AppointmentInThePastMsg);
+  if (isCurrentDateTimeClose(mappedInteraction.date) < 0) {
+    return interaction.reply(process.env.AppointmentInThePastMsg);
   }
 
-  if (dateTimeRegex.test(mappedMsg.date) || DEdateTimeRegex.test(mappedMsg.date) ) {
-    stmt.run(msg.author.id, mappedMsg.appointment, mappedMsg.date, mappedMsg.channel);
+  if (
+    dateTimeRegex.test(mappedInteraction.date) ||
+    DEdateTimeRegex.test(mappedInteraction.date)
+  ) {
+    stmt.run(
+      interaction.user.id,
+      mappedInteraction.appointment,
+      mappedInteraction.date,
+      mappedInteraction.channelId
+    );
     await stmt.finalize();
-    msg.reply(process.env.newAppointmentMsg);
+    interaction.reply(process.env.newAppointmentMsg);
     return;
   } else {
-    msg.reply("Wrong format.'DD/MM/YYYY HH:MM' or 'DD.MM.YYYY HH:MM'");
   }
+};
+
+export const getAllAppointments = async (db, interaction) => {
+  db.all(`SELECT * FROM ${process.env.tableName}`, (err, rows) => {
+    if (err) {
+      console.error(err.message);
+    }
+    if (Object.keys(rows).length > 0) {
+      rows.forEach((element) => {
+        interaction.reply(`${element.appointment} ${element.date}`);
+      });
+      return;
+    }
+    interaction.reply("no entry found");
+  });
+
+  return;
 };
