@@ -1,7 +1,7 @@
 import { isCurrentDateTimeClose } from "../index.js";
 import { interactionMapper } from "../mapper/interactionMapper.js";
 
-export const appointmentsGet = async (db) => {
+export const getAppointments = async (db) => {
   try {
     return await new Promise((resolve, reject) => {
       db.all(`SELECT * FROM ${process.env.tableName}`, [], (err, rows) => {
@@ -17,7 +17,7 @@ export const appointmentsGet = async (db) => {
   }
 };
 
-export const appointmentDelete = (db, data) => {
+export const deleteAppointment = (db, data) => {
   const appointment = interactionMapper(data);
 
   const query = `
@@ -69,23 +69,6 @@ export const addAppointment = async (db, interaction) => {
     await stmt.finalize();
     interaction.reply(process.env.newAppointmentMsg);
     return;
-  } else {
   }
-};
-
-export const getAllAppointments = async (db, interaction) => {
-  db.all(`SELECT * FROM ${process.env.tableName}`, (err, rows) => {
-    if (err) {
-      console.error(err.message);
-    }
-    if (Object.keys(rows).length > 0) {
-      rows.forEach((element) => {
-        interaction.reply(`${element.appointment} ${element.date}`);
-      });
-      return;
-    }
-    interaction.reply("no entry found");
-  });
-
-  return;
+  interaction.reply("Failed to create, check your format");
 };

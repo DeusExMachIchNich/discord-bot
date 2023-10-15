@@ -1,7 +1,7 @@
 import {
   addAppointment,
-  appointmentDelete,
-  getAllAppointments,
+  deleteAppointment,
+  getAppointments
 } from "../index.js";
 import { exec } from "child_process";
 
@@ -20,7 +20,19 @@ export const interactionHandler = async (interaction, db) => {
   }
 
   if (command === "get") {
-    getAllAppointments(db, interaction);
+    const data = await getAppointments(db);
+    let output = `Eventlist:`
+
+    if (Object.keys(data).length > 0) {
+      data.forEach((element) => {
+        output += `\n ${element.appointment} ${element.date} `;
+      });
+
+      interaction.reply(output);
+      return;
+    }
+    interaction.reply("no entry found");
+
   }
 
   if (command === "add") {
@@ -28,7 +40,8 @@ export const interactionHandler = async (interaction, db) => {
   }
 
   if (command === "del") {
-    appointmentDelete(db, interaction);
+    deleteAppointment(db, interaction);
+    interaction.reply("deleted ")
   }
 
   if (command === "command") {
@@ -37,10 +50,18 @@ export const interactionHandler = async (interaction, db) => {
 };
 
 async function executeCommand(interaction) {
-  if ( interaction.member.roles.cache.find((role) => role.name === process.env.bossRole)) {
+  if (
+    interaction.member.roles.cache.find(
+      (role) => role.name === process.env.bossRole
+    )
+  ) {
     try {
       // Use pm2 for some npm run commands.
-      interaction.reply(`you want me to do dirty stuff like ${interaction.options.get("script").value}?!`)
+      interaction.reply(
+        `you want me to do dirty stuff like ${
+          interaction.options.get("script").value
+        }?!`
+      );
       exec(`npm run ${interaction.options.get("script").value}`);
     } catch (error) {
       interaction.reply("Something unexpected happend");

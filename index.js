@@ -1,12 +1,14 @@
-import { config } from "dotenv";
-import { dbInit } from "./src/index.js";
 import { Client, GatewayIntentBits, Routes } from "discord.js";
 import { interactionHandler, readyHandler } from "./src/actions/index.js";
+import { config } from "dotenv";
+import { dbInit } from "./src/index.js";
 import { REST } from "discord.js";
 
 config();
-const db = dbInit();
+const CLIENT_ID = process.env.CLIENT_ID;
+const GUILD_ID = process.env.GUILD_ID;
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
+const db = dbInit();
 
 const client = new Client({
   intents: [
@@ -20,6 +22,7 @@ client.on("ready", () => {
   readyHandler(db, client);
   console.log(`${client.user.tag} just arrived!`);
 });
+
 client.on("interactionCreate", (interaction) => {
   if (interaction.isChatInputCommand()) {
     interactionHandler(interaction, db);
@@ -31,6 +34,10 @@ client.on("interactionCreate", (interaction) => {
     {
       name: "help",
       description: "view commands",
+    },
+    {
+      name: "get",
+      description: "get all appointment entries",
     },
     {
       name: "add",
@@ -92,22 +99,12 @@ client.on("interactionCreate", (interaction) => {
         },
       ],
     },
-    {
-      name: "get",
-      description: "get all appointment entries",
-    },
   ];
 
   try {
-    await rest.put(
-      Routes.applicationGuildCommands(
-        process.env.CLIENT_ID,
-        process.env.GUILD_ID
-      ),
-      {
-        body: commands,
-      }
-    );
+    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), {
+      body: commands,
+    });
     console.log("api ready");
   } catch (err) {
     console.log(err);
