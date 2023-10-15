@@ -1,9 +1,8 @@
 import sqlite3 from "sqlite3";
 
 export const dbInit = () => {
-  const db = new sqlite3.Database(`${process.env.databaseName}.db`);
-
   const columnsObject = JSON.parse(`{${process.env.columns}}`);
+  const db = new sqlite3.Database(`${process.env.databaseName}.db`);
 
   const queryColumns = [];
   for (const key in columnsObject) {
