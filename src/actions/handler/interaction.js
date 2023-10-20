@@ -40,8 +40,13 @@ export const interactionHandler = async (interaction, db) => {
   }
 
   if (command === "del") {
-    deleteAppointment(db, interaction);
-    interaction.reply("deleted ")
+    const res = await deleteAppointment(db, interaction);
+    if(res){
+      interaction.reply("deleted")
+      return
+    }
+    interaction.reply("nah mate aint got deleted")
+    return
   }
 
   if (command === "command") {
