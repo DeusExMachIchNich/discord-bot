@@ -40,7 +40,7 @@ export const deleteAppointment = async (db, data) => {
 export const addAppointment = async (db, interaction) => {
   const mappedInteraction = interactionMapper(interaction);
 
-  if(duplicateCheck(mappedInteraction, db)){
+  if(await duplicateCheck(mappedInteraction, db)){
     return interaction.reply("already exists my bruh")
   }
   const dateTimeRegex =
