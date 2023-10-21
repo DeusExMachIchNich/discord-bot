@@ -1,2 +1,2 @@
-export * from './utils.js';
+export * from './helpers/utils.js';
 export * from './dbInit.js';
