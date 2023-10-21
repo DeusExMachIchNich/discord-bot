@@ -54,12 +54,16 @@ client.on("interactionCreate", (interaction) => {
           description: "Date of the event",
           required: true,
           type: 3,
+          max_length: 10,
+          min_length: 10
         },
         {
           name: "time",
           description: "Time of the event",
           required: true,
           type: 3,
+          max_length: 5,
+          min_length: 5
         },
       ],
     },
@@ -78,12 +82,16 @@ client.on("interactionCreate", (interaction) => {
           description: "Date of the event",
           required: true,
           type: 3,
+          max_length: 10,
+          min_length: 10
         },
         {
           name: "time",
           description: "Time of the event",
           required: true,
           type: 3,
+          max_length: 5,
+          min_length: 5
         },
       ],
     },
@@ -96,6 +104,7 @@ client.on("interactionCreate", (interaction) => {
           description: "npm run xxx",
           required: true,
           type: 3,
+          max_length: 20
         },
       ],
     },
