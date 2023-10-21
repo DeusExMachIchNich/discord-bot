@@ -37,27 +37,27 @@ client.on("interactionCreate", (interaction) => {
     },
     {
       name: "get",
-      description: "get all appointment entries",
+      description: "get all event entries",
     },
     {
       name: "add",
-      description: "add an appointment",
+      description: "Add an event",
       options: [
         {
-          name: "appointment",
-          description: "Name of the Appointment",
+          name: "event",
+          description: "Name of the event",
           required: true,
           type: 3,
         },
         {
-          name: "appointmentdate",
-          description: "Date of the Appointment",
+          name: "date",
+          description: "Date of the event",
           required: true,
           type: 3,
         },
         {
-          name: "appointmenttime",
-          description: "Time of the Appointment",
+          name: "time",
+          description: "Time of the event",
           required: true,
           type: 3,
         },
@@ -65,23 +65,23 @@ client.on("interactionCreate", (interaction) => {
     },
     {
       name: "del",
-      description: "delete a specific appointment",
+      description: "delete a specific event",
       options: [
         {
-          name: "appointment",
-          description: "Name of the Appointment",
+          name: "event",
+          description: "Name of the event",
           required: true,
           type: 3,
         },
         {
-          name: "appointmentdate",
-          description: "Date of the Appointment",
+          name: "date",
+          description: "Date of the event",
           required: true,
           type: 3,
         },
         {
-          name: "appointmenttime",
-          description: "Time of the Appointment",
+          name: "time",
+          description: "Time of the event",
           required: true,
           type: 3,
         },

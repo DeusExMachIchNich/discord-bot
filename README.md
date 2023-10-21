@@ -6,10 +6,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/DanielSpindler/discord-bot">
-    <h3 align="center">Simple Discord Appointment Bot</h3>
+    <h3 align="center">Simple Discord Event Bot</h3>
   </a>
   <p align="center">
-    An Bot to create Appointments and get Notifications
+    An Bot to create Events and get Notifications
     <br />
 </div>
 
@@ -17,14 +17,14 @@
 ## About The Bot
 
 
-This is a simple Discord-bot to create appointments and get notifications from the Bot if the appointment is in a specified time range, can be changed in the .env file.
-You can delete appointments and with a set role you can also use commands for the pm2 to restart the bot from afar or to stop it.
+This is a simple Discord-bot to create events and get notifications from the Bot if the event is in a specified time range, can be changed in the .env file.
+You can delete events and with a set role you can also use commands for the pm2 to restart the bot from afar or to stop it.
 
 A new feature is the embed Reply. you can choose whenever you want a basic text-reply or a embed reply.
 
 Most Messages can be changed in the .env file. More incoming.
 
-The bot includes a Sqlite3 filebased Database to store Appointments. The Appointments will be deleted automatical after they expired.
+The bot includes a Sqlite3 filebased Database to store Events. The Events will be deleted automatical after they expired.
 
 
 
@@ -64,10 +64,10 @@ node v18.x
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Add your first Appointment with /add . Support format 00.00.0000 00:00 & 00/00/0000 00:00
+Add your first Event with /add . Support format 00.00.0000 00:00 & 00/00/0000 00:00
 
 ## In the Future
 
-update exsisting appointments
+update exsisting events
 
 Got any more input? reach out to us or create a issue / request

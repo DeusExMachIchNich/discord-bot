@@ -1,7 +1,7 @@
 import {
-  addAppointment,
-  deleteAppointment,
-  getAppointments
+  addEvent,
+  deleteEvent,
+  getEvents
 } from "../index.js";
 import { exec } from "child_process";
 
@@ -9,23 +9,23 @@ export const interactionHandler = async (interaction, db) => {
   const command = interaction.commandName;
 
   if (command === "help") {
-    interaction.reply(`To create a new Appointment (don't type the Brackets):
-    /add [AppointmentName] [DD/MM/YYYY] [HH:MM]
-    /add [AppointmentName] [DD.MM.YYYY] [HH:MM]
+    interaction.reply(`To create a new Event (don't type the Brackets):
+    /add [Name] [DD/MM/YYYY] [HH:MM]
+    /add [Name] [DD.MM.YYYY] [HH:MM]
 
-    To delete an Appointment (don't type the Brackets):
-    /del [AppointmentName] [DD/MM/YYYY] [HH:MM]
-    /del [AppointmentName] [DD.MM.YYYY] [HH:MM]
+    To delete an Event (don't type the Brackets):
+    /del [Name] [DD/MM/YYYY] [HH:MM]
+    /del [Name] [DD.MM.YYYY] [HH:MM]
     `);
   }
 
   if (command === "get") {
-    const data = await getAppointments(db);
+    const data = await getEvents(db);
     let output = `Eventlist:`
 
     if (Object.keys(data).length > 0) {
       data.forEach((element) => {
-        output += `\n ${element.appointment} ${element.date} `;
+        output += `\n ${element.event} ${element.date} `;
       });
 
       interaction.reply(output);
@@ -36,16 +36,16 @@ export const interactionHandler = async (interaction, db) => {
   }
 
   if (command === "add") {
-    addAppointment(db, interaction);
+    addEvent(db, interaction);
   }
 
   if (command === "del") {
-    const res = await deleteAppointment(db, interaction);
+    const res = await deleteEvent(db, interaction);
     if(res){
       interaction.reply("deleted")
       return
     }
-    interaction.reply("nah mate aint got deleted")
+    interaction.reply("Error: didnt delete :((")
     return
   }
 

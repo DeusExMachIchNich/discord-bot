@@ -1,13 +1,13 @@
 export const interactionMapper = (interaction) => {
   return {
     userId: interaction.user ? interaction.user.id : interaction.userId,
-    appointment: interaction.user
-      ? interaction.options.get("appointment").value
-      : interaction.appointment,
+    event: interaction.user
+      ? interaction.options.get("event").value
+      : interaction.event,
     date: interaction.user
-      ? interaction.options.get("appointmentdate").value +
+      ? interaction.options.get("date").value +
         " " +
-        interaction.options.get("appointmenttime").value
+        interaction.options.get("time").value
       : interaction.date,
     channelId: interaction.channelId,
   };

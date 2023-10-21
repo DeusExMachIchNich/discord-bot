@@ -1,14 +1,14 @@
-import { getAppointments } from "../actions/index.js";
+import { getEvents } from "../actions/index.js";
 
 export const duplicateCheck = async (dataToCheck, db) => {
-  const appointments = await getAppointments(db);
+  const events = await getEvents(db);
 
-  return appointments.find((appointment) => {
+  return events.find((event) => {
     return (
-      appointment.userId === dataToCheck.userId &&
-      appointment.appointment === dataToCheck.appointment &&
-      appointment.date === dataToCheck.date &&
-      appointment.channelId === dataToCheck.channelId
+      event.userId === dataToCheck.userId &&
+      event.event === dataToCheck.event &&
+      event.date === dataToCheck.date &&
+      event.channelId === dataToCheck.channelId
     );
   });
 };
