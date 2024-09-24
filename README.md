@@ -46,14 +46,23 @@ node v18.x
    ```sh
    git clone https://github.com/DeusExMachIchNich/discord-bot.git
    ```
+1.5. go in the directory
+  ```sh
+  cd discord-bot
+  ```
 2. Install NPM packages
    ```sh
    npm install
    ```
-3. copy .env-example and name it .env & edit it after !IMPORTANT!
-   ```env
-   as instructed in the .env   
+3. copy .env.example and name it .env & edit it after !IMPORTANT!
+   ```sh
+   copy .env.example .env
    ```
+   ```sh
+   notepad .env
+   ```
+   as instructed in the .env   
+
 4. Run
    ```sh
    npm run start
